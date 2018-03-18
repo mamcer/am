@@ -3,8 +3,6 @@ using System.Collections.Specialized;
 using System.Windows.Forms;
 using System.IO;
 using System.Text;
-
-using KeyboardUtilities;
 using NAudio.Wave;
 
 namespace AM
@@ -32,7 +30,7 @@ namespace AM
             StringBuilder sb = new StringBuilder();
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.Insert);
             }
             catch (InvalidOperationException ioe)
@@ -41,7 +39,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.Home);
             }
             catch (InvalidOperationException ioe)
@@ -50,7 +48,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.PageDown);
             }
             catch (InvalidOperationException ioe)
@@ -59,7 +57,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.PageUp);
             }
             catch (InvalidOperationException ioe)
@@ -68,7 +66,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.End);
             }
             catch (InvalidOperationException ioe)
@@ -77,7 +75,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.Up);
             }
             catch (InvalidOperationException ioe)
@@ -86,7 +84,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.Right);
             }
             catch (InvalidOperationException ioe)
@@ -95,7 +93,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.Down);
             }
             catch (InvalidOperationException ioe)
@@ -104,7 +102,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.Left);
             }
             catch (InvalidOperationException ioe)
@@ -113,7 +111,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
                     Keys.I);
             }
             catch (InvalidOperationException ioe)
@@ -131,7 +129,7 @@ namespace AM
 
         void hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            if (e.Modifier == (KeyboardUtilities.ModifierKeys.Alt | KeyboardUtilities.ModifierKeys.Control))
+            if (e.Modifier == (AM.ModifierKeys.Alt | AM.ModifierKeys.Control))
             {
                 switch (e.Key)
                 {
