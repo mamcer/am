@@ -11,26 +11,20 @@ namespace AM
             InitializeComponent();
         }
 
+        public string SelectedPath => txtFolderPath.Text;
+
         private void button2_Click(object sender, EventArgs e)
         {
             label1.Visible = false;
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                textBox1.Text = folderBrowserDialog1.SelectedPath;
-            }
-        }
-
-        public string SelectedPath
-        {
-            get 
-            {
-                return textBox1.Text;
+                txtFolderPath.Text = folderBrowserDialog1.SelectedPath;
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(textBox1.Text))
+            if (Directory.Exists(txtFolderPath.Text))
             {
                 DialogResult = DialogResult.OK;
             }

@@ -10,26 +10,26 @@ namespace AM
 {
     public partial class Golem : Form
     {
-        private KeyboardHook hook;
-        private string destinationFolder;
-        private bool closeApplication;
-        private WMPLib.IWMPPlaylist playlist;
+        private readonly KeyboardHook _hook;
+        private readonly string _destinationFolder;
+        private bool _closeApplication;
+        private readonly WMPLib.IWMPPlaylist _playlist;
 
         public Golem()
         {
             InitializeComponent();
             axWindowsMediaPlayer1.Visible = false;
-            this.playlist = axWindowsMediaPlayer1.newPlaylist("lalala", string.Empty);
-            axWindowsMediaPlayer1.currentPlaylist = playlist;
+            _playlist = axWindowsMediaPlayer1.newPlaylist("lalala", string.Empty);
+            axWindowsMediaPlayer1.currentPlaylist = _playlist;
 
-            hook = new KeyboardHook();
+            _hook = new KeyboardHook();
             // register the event that is fired after the key press.
-            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(hook_KeyPressed);
+            _hook.KeyPressed += hook_KeyPressed;
             // register all combination keys
             StringBuilder sb = new StringBuilder();
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.Insert);
             }
             catch (InvalidOperationException ioe)
@@ -38,7 +38,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.Home);
             }
             catch (InvalidOperationException ioe)
@@ -47,7 +47,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.PageDown);
             }
             catch (InvalidOperationException ioe)
@@ -56,7 +56,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.PageUp);
             }
             catch (InvalidOperationException ioe)
@@ -65,7 +65,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.End);
             }
             catch (InvalidOperationException ioe)
@@ -74,7 +74,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.Up);
             }
             catch (InvalidOperationException ioe)
@@ -83,7 +83,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.Right);
             }
             catch (InvalidOperationException ioe)
@@ -92,7 +92,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.Down);
             }
             catch (InvalidOperationException ioe)
@@ -101,7 +101,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.Left);
             }
             catch (InvalidOperationException ioe)
@@ -110,7 +110,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.F12);
             }
             catch (InvalidOperationException ioe)
@@ -119,7 +119,7 @@ namespace AM
             }
             try
             {
-                hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
+                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.I);
             }
             catch (InvalidOperationException ioe)
@@ -127,17 +127,17 @@ namespace AM
                 sb.AppendLine(ioe.Message);
             }
 
-            this.destinationFolder = ConfigurationManager.AppSettings["DestinationFolder"];
-            if (Directory.Exists(destinationFolder) == false)
+            _destinationFolder = ConfigurationManager.AppSettings["DestinationFolder"];
+            if (Directory.Exists(_destinationFolder) == false)
             {
-                sb.AppendLine(string.Format("No se encuentra el directorio:'{0}'", destinationFolder));
+                sb.AppendLine($"No se encuentra el directorio:'{_destinationFolder}'");
             }
 
             if (sb.Length > 0)
             {
                 MessageBox.Show(sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            this.closeApplication = false;
+            _closeApplication = false;
         }
 
         void hook_KeyPressed(object sender, KeyPressedEventArgs e)
@@ -213,23 +213,19 @@ namespace AM
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-        }
-
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             string filePath = axWindowsMediaPlayer1.currentMedia.sourceURL;
             string fileName = Path.GetFileName(filePath);
             try
             {
-                File.Copy(filePath, destinationFolder + fileName);
+                File.Copy(filePath, _destinationFolder + fileName);
             }
             catch (IOException ex)
             {
                 notifyIcon1.BalloonTipIcon = ToolTipIcon.Error;
                 notifyIcon1.BalloonTipTitle = "Error";
-                notifyIcon1.BalloonTipText = string.Format(string.Format("No se pudo copiar el archivo '{0}' - {1}", fileName, ex.Message));
+                notifyIcon1.BalloonTipText = string.Format($"No se pudo copiar el archivo '{fileName}' - {ex.Message}");
                 notifyIcon1.ShowBalloonTip(3000);
             }
 
@@ -238,14 +234,14 @@ namespace AM
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon1.BalloonTipTitle = "Copia finalizada";
-            notifyIcon1.BalloonTipText = "Copia finalizada con exito";
+            notifyIcon1.BalloonTipTitle = "Copy finished";
+            notifyIcon1.BalloonTipText = "Copy successfully finished";
             notifyIcon1.ShowBalloonTip(500);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!this.closeApplication)
+            if (!_closeApplication)
             {
                 WindowState = FormWindowState.Minimized;
                 Visible = false;
@@ -263,7 +259,7 @@ namespace AM
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.closeApplication = true;
+            _closeApplication = true;
             Close();
         }
 
@@ -283,14 +279,13 @@ namespace AM
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            int fileCount = 0;
             AddFolder addFolder = new AddFolder();
             if(addFolder.ShowDialog() == DialogResult.OK)
             {
-                fileCount = ScanFolderAndAddFilesToPlaylist(addFolder.SelectedPath);
+                var fileCount = ScanFolderAndAddFilesToPlaylist(addFolder.SelectedPath);
                 notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                 notifyIcon1.BalloonTipTitle = "Info";
-                notifyIcon1.BalloonTipText = string.Format("Total {0} archivos agregados", fileCount);
+                notifyIcon1.BalloonTipText = $"Total {fileCount} files added";
                 notifyIcon1.ShowBalloonTip(1000);
             }
         }
@@ -300,17 +295,17 @@ namespace AM
             string[] mp3Files = Directory.GetFiles(directoryPath, "*.mp3", SearchOption.AllDirectories);
             foreach (string filePath in mp3Files)
             {
-                this.playlist.appendItem(axWindowsMediaPlayer1.newMedia(filePath));
+                _playlist.appendItem(axWindowsMediaPlayer1.newMedia(filePath));
             }
             return mp3Files.Length;
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.playlist.clear();
+            _playlist.clear();
             notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
             notifyIcon1.BalloonTipTitle = "Info";
-            notifyIcon1.BalloonTipText = "Se eliminaron todos los elementos de la playlist";
+            notifyIcon1.BalloonTipText = "All elements from the playlist have been removed";
             notifyIcon1.ShowBalloonTip(1000);
         }
 
@@ -332,13 +327,13 @@ namespace AM
                 }
                 if (Path.GetExtension(filePath) == ".mp3")
                 {
-                    this.playlist.appendItem(axWindowsMediaPlayer1.newMedia(filePath));
+                    _playlist.appendItem(axWindowsMediaPlayer1.newMedia(filePath));
                     fileAdded += 1;
                 }
             }
             notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
             notifyIcon1.BalloonTipTitle = "Info";
-            notifyIcon1.BalloonTipText = string.Format("Total {0} archivos agregados", fileAdded);
+            notifyIcon1.BalloonTipText = $"Total {fileAdded} files added";
             notifyIcon1.ShowBalloonTip(3000);
         }
 
@@ -403,11 +398,11 @@ namespace AM
                 if (string.IsNullOrEmpty(axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR"))
                     || axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR") == "False")
                 {
-                    notifyIcon1.BalloonTipText = string.Format("{0} - {1}\n{2} - {3}\n{4} kbit", artist, title, year, album, bitrate);
+                    notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit";
                 }
                 else
                 {
-                    notifyIcon1.BalloonTipText = string.Format("{0} - {1}\n{2} - {3}\n{4} kbit (VBR)", artist, title, year, album, bitrate);
+                    notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit (VBR)";
                 }
                 notifyIcon1.ShowBalloonTip(3000);
                 //Artista - Tema
@@ -434,7 +429,7 @@ namespace AM
                 string artist = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Artist");
                 string title = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Title");
 
-                notifyIcon1.Text = string.Format("{0} - {1}", artist, title);
+                notifyIcon1.Text = $"{artist} - {title}";
             }
         }
     }
