@@ -297,10 +297,10 @@ namespace AM
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            AddFolder addFolder = new AddFolder();
-            if (addFolder.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                var fileCount = ScanFolderAndAddFilesToPlaylist(addFolder.SelectedPath);
+                var selectedPath = folderBrowserDialog1.SelectedPath;
+                var fileCount = ScanFolderAndAddFilesToPlaylist(selectedPath);
                 notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                 notifyIcon1.BalloonTipTitle = "Info";
                 notifyIcon1.BalloonTipText = $"Total {fileCount} files added";
