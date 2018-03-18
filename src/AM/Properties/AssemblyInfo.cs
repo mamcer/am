@@ -1,15 +1,14 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Sound Golem")]
+[assembly: AssemblyTitle("AM Sound Golem")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Aldebaran")]
-[assembly: AssemblyProduct("Sound Golem")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("AM Sound Golem")]
 [assembly: AssemblyCopyright("Copyright © Mario Moreno 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
