@@ -9,7 +9,7 @@ namespace AM
 {
     public partial class Main : Form
     {
-        private readonly KeyboardHook _hook;
+        private KeyboardHook _hook;
         private bool _closeApplication;
         private WaveOutEvent _outputDevice;
         private AudioFileReader _audioFile;
@@ -23,6 +23,13 @@ namespace AM
             _audioFile = null;
             _playlist = new StringCollection();
 
+            RegisterKeyboardShortcuts();
+
+            _closeApplication = false;
+        }
+
+        private void RegisterKeyboardShortcuts()
+        {
             _hook = new KeyboardHook();
             // register the event that is fired after the key press.
             _hook.KeyPressed += hook_KeyPressed;
@@ -123,8 +130,6 @@ namespace AM
             {
                 MessageBox.Show(sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
-            _closeApplication = false;
         }
 
         void hook_KeyPressed(object sender, KeyPressedEventArgs e)
@@ -156,18 +161,6 @@ namespace AM
                     case Keys.Insert:
                         {
                             RestartPlay();
-                        }
-                        break;
-                    case Keys.Right:
-                        {
-                            // TODO: fixit
-                            //axWindowsMediaPlayer1.Ctlcontrols.currentPosition += 10;
-                        }
-                        break;
-                    case Keys.Left:
-                        {
-                            // TODO: fixit
-                            //axWindowsMediaPlayer1.Ctlcontrols.currentPosition -= 10;
                         }
                         break;
                     case Keys.Up:
