@@ -434,18 +434,6 @@ namespace AM
             //}
         }
 
-        private void RemoveFromPlaylist()
-        {
-            // TODO: fixit
-            //axWindowsMediaPlayer1.currentPlaylist.removeItem(axWindowsMediaPlayer1.currentMedia);
-            //axWindowsMediaPlayer1.Ctlcontrols.play();
-        }
-
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            RemoveFromPlaylist();
-        }
-
         private void notifyIcon1_MouseMove(object sender, MouseEventArgs e)
         {
             // TODO: fixit
