@@ -1,26 +1,29 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Windows.Forms;
-using System.Configuration;
 using System.IO;
 using System.Text;
 
 using KeyboardUtilities;
+using NAudio.Wave;
 
 namespace AM
 {
     public partial class Golem : Form
     {
         private readonly KeyboardHook _hook;
-        private readonly string _destinationFolder;
         private bool _closeApplication;
-        private readonly WMPLib.IWMPPlaylist _playlist;
+        private WaveOutEvent _outputDevice;
+        private AudioFileReader _audioFile;
+        private StringCollection _playlist;
+        private int _playlistIndex;
 
         public Golem()
         {
             InitializeComponent();
-            axWindowsMediaPlayer1.Visible = false;
-            _playlist = axWindowsMediaPlayer1.newPlaylist("lalala", string.Empty);
-            axWindowsMediaPlayer1.currentPlaylist = _playlist;
+            _outputDevice = new WaveOutEvent();
+            _audioFile = null;
+            _playlist = new StringCollection();
 
             _hook = new KeyboardHook();
             // register the event that is fired after the key press.
@@ -111,15 +114,6 @@ namespace AM
             try
             {
                 _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
-                    Keys.F12);
-            }
-            catch (InvalidOperationException ioe)
-            {
-                sb.AppendLine(ioe.Message);
-            }
-            try
-            {
-                _hook.RegisterHotKey(KeyboardUtilities.ModifierKeys.Control | KeyboardUtilities.ModifierKeys.Alt,
                     Keys.I);
             }
             catch (InvalidOperationException ioe)
@@ -127,16 +121,11 @@ namespace AM
                 sb.AppendLine(ioe.Message);
             }
 
-            _destinationFolder = ConfigurationManager.AppSettings["DestinationFolder"];
-            if (Directory.Exists(_destinationFolder) == false)
-            {
-                sb.AppendLine($"No se encuentra el directorio:'{_destinationFolder}'");
-            }
-
             if (sb.Length > 0)
             {
                 MessageBox.Show(sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
             _closeApplication = false;
         }
 
@@ -148,61 +137,50 @@ namespace AM
                 {
                     case Keys.Home:
                         {
-                            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPaused)
-                            {
-                                axWindowsMediaPlayer1.Ctlcontrols.play();
-                            }
-                            else
-                            {
-                                axWindowsMediaPlayer1.Ctlcontrols.pause();
-                            }
+                            PlayPause();
                         }
                         break;
                     case Keys.End:
                         {
-                            axWindowsMediaPlayer1.Ctlcontrols.stop();
+                            Stop();
                         }
                         break;
                     case Keys.PageUp:
-                        {
-                            axWindowsMediaPlayer1.Ctlcontrols.next();
-                        }
+                    {
+                        PlayNextSong();
+                    }
                         break;
                     case Keys.PageDown:
-                        {
-                            axWindowsMediaPlayer1.Ctlcontrols.previous();
-                        }
+                    {
+                        PlayPreviousSong();
+                    }
                         break;
                     case Keys.Insert:
                         {
-                            axWindowsMediaPlayer1.Ctlcontrols.stop();
-                            axWindowsMediaPlayer1.Ctlcontrols.play();
+                            RestartPlay();
                         }
                         break;
                     case Keys.Right:
                         {
-                            axWindowsMediaPlayer1.Ctlcontrols.currentPosition += 10;
+                            // TODO: fixit
+                            //axWindowsMediaPlayer1.Ctlcontrols.currentPosition += 10;
                         }
                         break;
                     case Keys.Left:
                         {
-                            axWindowsMediaPlayer1.Ctlcontrols.currentPosition -= 10;
+                            // TODO: fixit
+                            //axWindowsMediaPlayer1.Ctlcontrols.currentPosition -= 10;
                         }
                         break;
                     case Keys.Up:
-                        {
-                            axWindowsMediaPlayer1.settings.volume += 1;
+                    {
+                        VolumeUp();
                         }
                         break;
                     case Keys.Down:
-                        {
-                            axWindowsMediaPlayer1.settings.volume -= 1;
-                        }
-                        break;
-                    case Keys.F12:
-                        {
-                            backgroundWorker1.RunWorkerAsync();
-                        }
+                    {
+                        VolumeDown();
+                    }
                         break;
                     case Keys.I:
                         {
@@ -213,30 +191,70 @@ namespace AM
             }
         }
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void VolumeUp()
         {
-            string filePath = axWindowsMediaPlayer1.currentMedia.sourceURL;
-            string fileName = Path.GetFileName(filePath);
-            try
+            if (_outputDevice.Volume < 1)
             {
-                File.Copy(filePath, _destinationFolder + fileName);
+                _outputDevice.Volume += 0.1f;
             }
-            catch (IOException ex)
-            {
-                notifyIcon1.BalloonTipIcon = ToolTipIcon.Error;
-                notifyIcon1.BalloonTipTitle = "Error";
-                notifyIcon1.BalloonTipText = string.Format($"No se pudo copiar el archivo '{fileName}' - {ex.Message}");
-                notifyIcon1.ShowBalloonTip(3000);
-            }
-
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void VolumeDown()
         {
-            notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon1.BalloonTipTitle = "Copy finished";
-            notifyIcon1.BalloonTipText = "Copy successfully finished";
-            notifyIcon1.ShowBalloonTip(500);
+            if (_outputDevice.Volume > 0)
+            {
+                _outputDevice.Volume -= 0.1f;
+            }
+        }
+
+        private void PlayPreviousSong()
+        {
+            if (_playlistIndex < 0 && _playlist.Count > 0)
+            {
+                _playlistIndex += 1;
+                PlayCurrentItem();
+            }
+        }
+
+        private void PlayNextSong()
+        {
+            if (_playlistIndex < _playlist.Count)
+            {
+                _playlistIndex += 1;
+                PlayCurrentItem();
+            }
+        }
+
+        private void RestartPlay()
+        {
+            if (_audioFile != null)
+            {
+                _outputDevice.Stop();
+                _outputDevice.Play();
+            }
+        }
+
+        private void Stop()
+        {
+            if (_audioFile != null)
+            {
+                _outputDevice.Stop();
+            }
+        }
+
+        private void PlayPause()
+        {
+            if (_audioFile != null)
+            {
+                if (_outputDevice.PlaybackState != PlaybackState.Playing)
+                {
+                    _outputDevice.Play();
+                }
+                else
+                {
+                    _outputDevice.Pause();
+                }
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -280,29 +298,41 @@ namespace AM
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             AddFolder addFolder = new AddFolder();
-            if(addFolder.ShowDialog() == DialogResult.OK)
+            if (addFolder.ShowDialog() == DialogResult.OK)
             {
                 var fileCount = ScanFolderAndAddFilesToPlaylist(addFolder.SelectedPath);
                 notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                 notifyIcon1.BalloonTipTitle = "Info";
                 notifyIcon1.BalloonTipText = $"Total {fileCount} files added";
                 notifyIcon1.ShowBalloonTip(1000);
+                PlayCurrentItem();
+            }
+        }
+
+        private void PlayCurrentItem()
+        {
+            if (_playlistIndex < _playlist.Count)
+            {
+                _audioFile = new AudioFileReader(_playlist[_playlistIndex]);
+                _outputDevice.Stop();
+                _outputDevice.Init(_audioFile);
+                _outputDevice.Play();
             }
         }
 
         private int ScanFolderAndAddFilesToPlaylist(string directoryPath)
         {
             string[] mp3Files = Directory.GetFiles(directoryPath, "*.mp3", SearchOption.AllDirectories);
-            foreach (string filePath in mp3Files)
-            {
-                _playlist.appendItem(axWindowsMediaPlayer1.newMedia(filePath));
-            }
-            return mp3Files.Length;
+            _playlist.Clear();
+            _playlist.AddRange(mp3Files);
+            _playlistIndex = 0;
+
+            return _playlist.Count;
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            _playlist.clear();
+            _playlist.Clear();
             notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
             notifyIcon1.BalloonTipTitle = "Info";
             notifyIcon1.BalloonTipText = "All elements from the playlist have been removed";
@@ -320,14 +350,14 @@ namespace AM
             int fileAdded = 0;
             foreach (string filePath in mp3Files)
             {
-                if(Directory.Exists(filePath))
+                if (Directory.Exists(filePath))
                 {
                     fileAdded += ScanFolderAndAddFilesToPlaylist(filePath);
                     continue;
                 }
                 if (Path.GetExtension(filePath) == ".mp3")
                 {
-                    _playlist.appendItem(axWindowsMediaPlayer1.newMedia(filePath));
+                    _playlist.Add(filePath);
                     fileAdded += 1;
                 }
             }
@@ -386,35 +416,38 @@ namespace AM
 
         private void ShowCurrentTrackInfo()
         {
-            if (axWindowsMediaPlayer1.Ctlcontrols.currentItem != null)
-            {
-                notifyIcon1.BalloonTipIcon = ToolTipIcon.None;
-                notifyIcon1.BalloonTipTitle = "File Info";
-                string artist = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Artist");
-                string title = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Title");
-                string year = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("WM/Year");
-                string album = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Album");
-                string bitrate = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Bitrate");
-                if (string.IsNullOrEmpty(axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR"))
-                    || axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR") == "False")
-                {
-                    notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit";
-                }
-                else
-                {
-                    notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit (VBR)";
-                }
-                notifyIcon1.ShowBalloonTip(3000);
-                //Artista - Tema
-                //Año - Album
-                //Rate
-            }
+            // TODO: fixit
+
+            //if (axWindowsMediaPlayer1.Ctlcontrols.currentItem != null)
+            //{
+            //    notifyIcon1.BalloonTipIcon = ToolTipIcon.None;
+            //    notifyIcon1.BalloonTipTitle = "File Info";
+            //    string artist = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Artist");
+            //    string title = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Title");
+            //    string year = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("WM/Year");
+            //    string album = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Album");
+            //    string bitrate = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Bitrate");
+            //    if (string.IsNullOrEmpty(axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR"))
+            //        || axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR") == "False")
+            //    {
+            //        notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit";
+            //    }
+            //    else
+            //    {
+            //        notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit (VBR)";
+            //    }
+            //    notifyIcon1.ShowBalloonTip(3000);
+            //    //Artista - Tema
+            //    //Año - Album
+            //    //Rate
+            //}
         }
 
         private void RemoveFromPlaylist()
         {
-            axWindowsMediaPlayer1.currentPlaylist.removeItem(axWindowsMediaPlayer1.currentMedia);
-            axWindowsMediaPlayer1.Ctlcontrols.play();
+            // TODO: fixit
+            //axWindowsMediaPlayer1.currentPlaylist.removeItem(axWindowsMediaPlayer1.currentMedia);
+            //axWindowsMediaPlayer1.Ctlcontrols.play();
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -424,13 +457,14 @@ namespace AM
 
         private void notifyIcon1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (axWindowsMediaPlayer1.Ctlcontrols.currentItem != null)
-            {
-                string artist = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Artist");
-                string title = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Title");
+            // TODO: fixit
+            //if (axWindowsMediaPlayer1.Ctlcontrols.currentItem != null)
+            //{
+            //    string artist = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Artist");
+            //    string title = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Title");
 
-                notifyIcon1.Text = $"{artist} - {title}";
-            }
+            //    notifyIcon1.Text = $"{artist} - {title}";
+            //}
         }
     }
 }
