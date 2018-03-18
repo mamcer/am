@@ -400,7 +400,7 @@ namespace AM
                 string year = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("WM/Year");
                 string album = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Album");
                 string bitrate = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Bitrate");
-                if (axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR") == string.Empty
+                if (string.IsNullOrEmpty(axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR"))
                     || axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR") == "False")
                 {
                     notifyIcon1.BalloonTipText = string.Format("{0} - {1}\n{2} - {3}\n{4} kbit", artist, title, year, album, bitrate);
