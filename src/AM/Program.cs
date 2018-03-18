@@ -8,18 +8,17 @@ namespace AM
         [STAThread]
         static void Main()
         {
-            try
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Golem());
-            }
-            catch (Exception ex)
-            {
-                Error error = new Error();
-                error.ErrorText = ex.Message + ex.StackTrace;
-                error.ShowDialog();
-            }
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += Application_ThreadException;
+            Application.Run(new Golem());
+        }
+
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            Error error = new Error(e.Exception);
+            error.ShowDialog();
+            Application.Exit();
         }
     }
 }

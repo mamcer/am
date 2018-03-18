@@ -50,18 +50,19 @@
             // 
             this.lnkCopyToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkCopyToClipboard.AutoSize = true;
-            this.lnkCopyToClipboard.Location = new System.Drawing.Point(-2, 282);
+            this.lnkCopyToClipboard.Location = new System.Drawing.Point(2, 282);
             this.lnkCopyToClipboard.Name = "lnkCopyToClipboard";
             this.lnkCopyToClipboard.Size = new System.Drawing.Size(99, 13);
             this.lnkCopyToClipboard.TabIndex = 1;
             this.lnkCopyToClipboard.TabStop = true;
             this.lnkCopyToClipboard.Text = "Copy to clipboard";
+            this.lnkCopyToClipboard.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCopyToClipboard_LinkClicked);
             // 
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(457, 285);
+            this.btnOk.Location = new System.Drawing.Point(453, 285);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 2;
@@ -78,8 +79,9 @@
             this.Controls.Add(this.lnkCopyToClipboard);
             this.Controls.Add(this.txtErrorMessage);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Error";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Error";
             this.ResumeLayout(false);
             this.PerformLayout();

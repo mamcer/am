@@ -1,18 +1,26 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace AM
 {
     public partial class Error : Form
     {
-        public Error()
+        public Error(Exception ex)
         {
             InitializeComponent();
+
+            
+            txtErrorMessage.Text = ex.Message.ToUpper() + Environment.NewLine + Environment.NewLine + "STACK TRACE" + Environment.NewLine + ex.StackTrace;
+
+            txtErrorMessage.Text += ex.InnerException != null
+                ? Environment.NewLine + "INNER EXCEPTION" + Environment.NewLine +
+                  ex.InnerException.Message
+                : string.Empty;
         }
 
-        public string ErrorText
+        private void lnkCopyToClipboard_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            get => txtErrorMessage.Text;
-            set => txtErrorMessage.Text = value;
+            Clipboard.SetText(txtErrorMessage.Text);
         }
     }
 }
