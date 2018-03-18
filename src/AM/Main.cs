@@ -7,7 +7,7 @@ using NAudio.Wave;
 
 namespace AM
 {
-    public partial class Golem : Form
+    public partial class Main : Form
     {
         private readonly KeyboardHook _hook;
         private bool _closeApplication;
@@ -16,7 +16,7 @@ namespace AM
         private StringCollection _playlist;
         private int _playlistIndex;
 
-        public Golem()
+        public Main()
         {
             InitializeComponent();
             _outputDevice = new WaveOutEvent();
@@ -337,12 +337,12 @@ namespace AM
             notifyIcon1.ShowBalloonTip(1000);
         }
 
-        private void Golem_DragEnter(object sender, DragEventArgs e)
+        private void Main_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Link;
         }
 
-        private void Golem_DragDrop(object sender, DragEventArgs e)
+        private void Main_DragDrop(object sender, DragEventArgs e)
         {
             string[] mp3Files = (string[])e.Data.GetData(DataFormats.FileDrop);
             int fileAdded = 0;
