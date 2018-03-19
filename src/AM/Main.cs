@@ -12,7 +12,7 @@ namespace AM
         private bool _closeApplication;
         private readonly IAudioPlayer _player;
 
-        public Main()
+        public Main(IAudioPlayer player)
         {
             InitializeComponent();
 
@@ -20,7 +20,7 @@ namespace AM
 
             _closeApplication = false;
 
-            _player = new NAudioPlayer(new SimplePlaylist());
+            _player = player;
         }
 
         private void RegisterKeyboardShortcuts()
