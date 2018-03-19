@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Windows.Forms;
 using System.IO;
 using System.Text;
-using NAudio.Wave;
 
 namespace AM
 {
@@ -11,21 +9,17 @@ namespace AM
     {
         private KeyboardHook _hook;
         private bool _closeApplication;
-        private WaveOutEvent _outputDevice;
-        private AudioFileReader _audioFile;
-        private StringCollection _playlist;
-        private int _playlistIndex;
+        private readonly IAudioPlayer _player;
 
         public Main()
         {
             InitializeComponent();
-            _outputDevice = new WaveOutEvent();
-            _audioFile = null;
-            _playlist = new StringCollection();
 
             RegisterKeyboardShortcuts();
 
             _closeApplication = false;
+
+            _player = new NAudioPlayer(new SimplePlaylist());
         }
 
         private void RegisterKeyboardShortcuts()
@@ -149,14 +143,14 @@ namespace AM
                         }
                         break;
                     case Keys.PageUp:
-                    {
-                        PlayNextSong();
-                    }
+                        {
+                            PlayNextSong();
+                        }
                         break;
                     case Keys.PageDown:
-                    {
-                        PlayPreviousSong();
-                    }
+                        {
+                            PlayPreviousSong();
+                        }
                         break;
                     case Keys.Insert:
                         {
@@ -164,14 +158,14 @@ namespace AM
                         }
                         break;
                     case Keys.Up:
-                    {
-                        VolumeUp();
+                        {
+                            VolumeUp();
                         }
                         break;
                     case Keys.Down:
-                    {
-                        VolumeDown();
-                    }
+                        {
+                            VolumeDown();
+                        }
                         break;
                     case Keys.I:
                         {
@@ -184,68 +178,37 @@ namespace AM
 
         private void VolumeUp()
         {
-            if (_outputDevice.Volume < 1)
-            {
-                _outputDevice.Volume += 0.1f;
-            }
+            _player.VolumeUp();
         }
 
         private void VolumeDown()
         {
-            if (_outputDevice.Volume > 0)
-            {
-                _outputDevice.Volume -= 0.1f;
-            }
+            _player.VolumeDown();
         }
 
         private void PlayPreviousSong()
         {
-            if (_playlistIndex < 0 && _playlist.Count > 0)
-            {
-                _playlistIndex += 1;
-                PlayCurrentItem();
-            }
+            _player.Previous();
         }
 
         private void PlayNextSong()
         {
-            if (_playlistIndex < _playlist.Count)
-            {
-                _playlistIndex += 1;
-                PlayCurrentItem();
-            }
+            _player.Next();
         }
 
         private void RestartPlay()
         {
-            if (_audioFile != null)
-            {
-                _outputDevice.Stop();
-                _outputDevice.Play();
-            }
+            _player.Resume();
         }
 
         private void Stop()
         {
-            if (_audioFile != null)
-            {
-                _outputDevice.Stop();
-            }
+            _player.Stop();
         }
 
         private void PlayPause()
         {
-            if (_audioFile != null)
-            {
-                if (_outputDevice.PlaybackState != PlaybackState.Playing)
-                {
-                    _outputDevice.Play();
-                }
-                else
-                {
-                    _outputDevice.Pause();
-                }
-            }
+            _player.PlayPause();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -296,34 +259,19 @@ namespace AM
                 notifyIcon1.BalloonTipTitle = "Info";
                 notifyIcon1.BalloonTipText = $"Total {fileCount} files added";
                 notifyIcon1.ShowBalloonTip(1000);
-                PlayCurrentItem();
-            }
-        }
-
-        private void PlayCurrentItem()
-        {
-            if (_playlistIndex < _playlist.Count)
-            {
-                _audioFile = new AudioFileReader(_playlist[_playlistIndex]);
-                _outputDevice.Stop();
-                _outputDevice.Init(_audioFile);
-                _outputDevice.Play();
             }
         }
 
         private int ScanFolderAndAddFilesToPlaylist(string directoryPath)
         {
             string[] mp3Files = Directory.GetFiles(directoryPath, "*.mp3", SearchOption.AllDirectories);
-            _playlist.Clear();
-            _playlist.AddRange(mp3Files);
-            _playlistIndex = 0;
+            _player.AddToPlaylist(mp3Files);
 
-            return _playlist.Count;
+            return _player.PlaylistItemCount();
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            _playlist.Clear();
             notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
             notifyIcon1.BalloonTipTitle = "Info";
             notifyIcon1.BalloonTipText = "All elements from the playlist have been removed";
@@ -348,7 +296,7 @@ namespace AM
                 }
                 if (Path.GetExtension(filePath) == ".mp3")
                 {
-                    _playlist.Add(filePath);
+                    _player.AddToPlaylist(filePath);
                     fileAdded += 1;
                 }
             }
