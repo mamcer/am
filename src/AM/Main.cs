@@ -252,14 +252,14 @@ namespace AM
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                var selectedPath = folderBrowserDialog1.SelectedPath;
+                var selectedPath = folderBrowserDialog.SelectedPath;
                 var fileCount = ScanFolderAndAddFilesToPlaylist(selectedPath);
-                notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-                notifyIcon1.BalloonTipTitle = "Info";
-                notifyIcon1.BalloonTipText = $"Total {fileCount} files added";
-                notifyIcon1.ShowBalloonTip(1000);
+                notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+                notifyIcon.BalloonTipTitle = "Info";
+                notifyIcon.BalloonTipText = $"Total {fileCount} files added";
+                notifyIcon.ShowBalloonTip(1000);
             }
         }
 
@@ -273,10 +273,10 @@ namespace AM
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon1.BalloonTipTitle = "Info";
-            notifyIcon1.BalloonTipText = "All elements from the playlist have been removed";
-            notifyIcon1.ShowBalloonTip(1000);
+            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+            notifyIcon.BalloonTipTitle = "Info";
+            notifyIcon.BalloonTipText = "All elements from the playlist have been removed";
+            notifyIcon.ShowBalloonTip(1000);
         }
 
         private void Main_DragEnter(object sender, DragEventArgs e)
@@ -301,10 +301,10 @@ namespace AM
                     fileAdded += 1;
                 }
             }
-            notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon1.BalloonTipTitle = "Info";
-            notifyIcon1.BalloonTipText = $"Total {fileAdded} files added";
-            notifyIcon1.ShowBalloonTip(3000);
+            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+            notifyIcon.BalloonTipTitle = "Info";
+            notifyIcon.BalloonTipText = $"Total {fileAdded} files added";
+            notifyIcon.ShowBalloonTip(3000);
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -314,21 +314,18 @@ namespace AM
 
         private void ShowHelp()
         {
-            notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon1.BalloonTipTitle = "Help";
+            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+            notifyIcon.BalloonTipTitle = "Help";
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Ctrl-Alt-Home Pause");
             sb.AppendLine("Ctrl-Alt-End Stop");
             sb.AppendLine("Ctrl-Alt-PageUp Next");
             sb.AppendLine("Ctrl-Alt-PageDown Previous");
             sb.AppendLine("Ctrl-Alt-Insert Play");
-            sb.AppendLine("Ctrl-Alt-Right Forward 10 sec.");
-            sb.AppendLine("Ctrl-Alt-Left Backward 10 sec.");
             sb.AppendLine("Ctrl-Alt-Up Volume increase");
             sb.AppendLine("Ctrl-Alt-Down Volume decrease");
-            sb.AppendLine("Ctrl-Alt-F12 Copy File");
-            notifyIcon1.BalloonTipText = sb.ToString();
-            notifyIcon1.ShowBalloonTip(10000);
+            notifyIcon.BalloonTipText = sb.ToString();
+            notifyIcon.ShowBalloonTip(10000);
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -338,10 +335,10 @@ namespace AM
 
         private void ShowAboutBox()
         {
-            notifyIcon1.BalloonTipIcon = ToolTipIcon.None;
-            notifyIcon1.BalloonTipTitle = "About";
-            notifyIcon1.BalloonTipText = "Sound Golem\nAldebaran\nCopyright © Mario Moreno 2009";
-            notifyIcon1.ShowBalloonTip(3000);
+            notifyIcon.BalloonTipIcon = ToolTipIcon.None;
+            notifyIcon.BalloonTipTitle = "About";
+            notifyIcon.BalloonTipText = "Sound Golem\nAldebaran\nCopyright © Mario Moreno 2009";
+            notifyIcon.ShowBalloonTip(3000);
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
