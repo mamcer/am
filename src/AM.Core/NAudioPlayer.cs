@@ -1,7 +1,8 @@
 ﻿using System;
+using AM.Core;
 using NAudio.Wave;
 
-namespace AM
+namespace AM.Core
 {
     public class NAudioPlayer : IAudioPlayer, IDisposable
     {

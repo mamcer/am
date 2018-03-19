@@ -1,6 +1,6 @@
 ﻿using System.Collections.Specialized;
 
-namespace AM
+namespace AM.Core
 {
     public class SimplePlaylist : IPlaylist
     {

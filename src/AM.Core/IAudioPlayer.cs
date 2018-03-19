@@ -1,4 +1,4 @@
-﻿namespace AM
+﻿namespace AM.Core
 {
     public interface IAudioPlayer
     {
