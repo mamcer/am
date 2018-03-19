@@ -21,6 +21,8 @@ namespace AM
             _closeApplication = false;
 
             _player = player;
+
+            ConsoleLog("Welcome to Sound Golem!");
         }
 
         private void RegisterKeyboardShortcuts()
@@ -180,36 +182,43 @@ namespace AM
         private void VolumeUp()
         {
             _player.VolumeUp();
+            ConsoleLog($"Current volume {_player.GetCurrentVolumeLevel()*100}%");
         }
 
         private void VolumeDown()
         {
             _player.VolumeDown();
+            ConsoleLog($"Current volume {_player.GetCurrentVolumeLevel()*100}%");
         }
 
         private void PlayPreviousSong()
         {
             _player.Previous();
+            ConsoleLog($"Current song: {_player.GetCurrentFileName()}");
         }
 
         private void PlayNextSong()
         {
             _player.Next();
+            ConsoleLog($"Current song: {_player.GetCurrentFileName()}");
         }
 
         private void RestartPlay()
         {
             _player.Resume();
+            ConsoleLog($"Resume play: {_player.GetCurrentFileName()}");
         }
 
         private void Stop()
         {
             _player.Stop();
+            ConsoleLog($"Stop play: {_player.GetCurrentFileName()}");
         }
 
         private void PlayPause()
         {
             _player.PlayPause();
+            ConsoleLog($"Play/Pause: {_player.GetCurrentFileName()}");
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -256,10 +265,7 @@ namespace AM
             {
                 var selectedPath = folderBrowserDialog.SelectedPath;
                 var fileCount = ScanFolderAndAddFilesToPlaylist(selectedPath);
-                notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-                notifyIcon.BalloonTipTitle = "Info";
-                notifyIcon.BalloonTipText = $"Total {fileCount} files added";
-                notifyIcon.ShowBalloonTip(1000);
+                ConsoleLog($"Total {fileCount} files added");
             }
         }
 
@@ -273,10 +279,8 @@ namespace AM
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon.BalloonTipTitle = "Info";
-            notifyIcon.BalloonTipText = "All elements from the playlist have been removed";
-            notifyIcon.ShowBalloonTip(1000);
+            _player.ClearPlaylist();
+            ConsoleLog("All elements from the playlist have been removed");
         }
 
         private void Main_DragEnter(object sender, DragEventArgs e)
@@ -301,10 +305,8 @@ namespace AM
                     fileAdded += 1;
                 }
             }
-            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon.BalloonTipTitle = "Info";
-            notifyIcon.BalloonTipText = $"Total {fileAdded} files added";
-            notifyIcon.ShowBalloonTip(3000);
+
+            ConsoleLog($"Total {fileAdded} files added");
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -315,13 +317,13 @@ namespace AM
         private void ShowHelp()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Ctrl-Alt-Home Pause");
-            sb.AppendLine("Ctrl-Alt-End Stop");
-            sb.AppendLine("Ctrl-Alt-PageUp Next");
-            sb.AppendLine("Ctrl-Alt-PageDown Previous");
-            sb.AppendLine("Ctrl-Alt-Insert Play");
-            sb.AppendLine("Ctrl-Alt-Up Volume increase");
-            sb.AppendLine("Ctrl-Alt-Down Volume decrease");
+            sb.AppendLine("Ctrl-Alt-Home        Pause");
+            sb.AppendLine("Ctrl-Alt-End         Stop");
+            sb.AppendLine("Ctrl-Alt-PageUp      Next");
+            sb.AppendLine("Ctrl-Alt-PageDown    Previous");
+            sb.AppendLine("Ctrl-Alt-Insert      Play");
+            sb.AppendLine("Ctrl-Alt-Up          Volume increase");
+            sb.AppendLine("Ctrl-Alt-Down        Volume decrease");
 
             MessageBox.Show(sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -375,16 +377,11 @@ namespace AM
             //}
         }
 
-        private void notifyIcon1_MouseMove(object sender, MouseEventArgs e)
+        private void ConsoleLog(string message)
         {
-            // TODO: fixit
-            //if (axWindowsMediaPlayer1.Ctlcontrols.currentItem != null)
-            //{
-            //    string artist = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Artist");
-            //    string title = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Title");
-
-            //    notifyIcon1.Text = $"{artist} - {title}";
-            //}
+            txtConsole.Text += DateTime.Now.ToString("yyyy.dd.MM-hh:mm:ss") + @" - " + message + Environment.NewLine;
+            txtConsole.SelectionStart = txtConsole.Text.Length;
+            txtConsole.ScrollToCaret();
         }
     }
 }

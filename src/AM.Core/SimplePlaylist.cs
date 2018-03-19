@@ -24,6 +24,16 @@ namespace AM.Core
             return string.Empty;
         }
 
+        public string GetCurrentSongPath()
+        {
+            if (_playlist.Count > 0 && _currentItemIndex > 0 && _currentItemIndex < _playlist.Count)
+            {
+                return _playlist[_currentItemIndex];
+            }
+
+            return string.Empty;
+        }
+
         public string GetNextSongPath()
         {
             if (_playlist.Count > 0 && _currentItemIndex < _playlist.Count)
@@ -48,6 +58,11 @@ namespace AM.Core
         public int Count()
         {
             return _playlist.Count;
+        }
+
+        public void Clear()
+        {
+            _playlist.Clear();
         }
     }
 }

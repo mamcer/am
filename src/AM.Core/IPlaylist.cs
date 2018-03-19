@@ -6,10 +6,14 @@
 
         string GetPreviousSongPath();
 
+        string GetCurrentSongPath();
+
         void Add(string[] filePaths);
 
         void Add(string filePath);
 
         int Count();
+
+        void Clear();
     }
 }

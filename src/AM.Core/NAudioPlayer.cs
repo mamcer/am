@@ -15,6 +15,12 @@ namespace AM.Core
             _playlist = playlist;
             _outputDevice = new WaveOutEvent();
             _audioFile = null;
+            _outputDevice.PlaybackStopped += PlaybackStopped;
+        }
+
+        private void PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            Next();
         }
 
         public void AddToPlaylist(string[] filePath)
@@ -46,6 +52,16 @@ namespace AM.Core
             {
                 _outputDevice.Volume -= 0.1f;
             }
+        }
+
+        public float GetCurrentVolumeLevel()
+        {
+            return _outputDevice.Volume;
+        }
+
+        public string GetCurrentFileName()
+        {
+            return _playlist.GetCurrentSongPath();
         }
 
         public void Previous()
@@ -119,6 +135,11 @@ namespace AM.Core
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void ClearPlaylist()
+        {
+            _playlist.Clear();
         }
     }
 }

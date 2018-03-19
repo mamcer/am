@@ -8,9 +8,15 @@
 
         int PlaylistItemCount();
 
+        void ClearPlaylist();
+
         void VolumeUp();
 
         void VolumeDown();
+
+        float GetCurrentVolumeLevel();
+
+        string GetCurrentFileName();
 
         void Previous();
 
