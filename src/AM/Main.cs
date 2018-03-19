@@ -314,8 +314,6 @@ namespace AM
 
         private void ShowHelp()
         {
-            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon.BalloonTipTitle = "Help";
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Ctrl-Alt-Home Pause");
             sb.AppendLine("Ctrl-Alt-End Stop");
@@ -324,8 +322,8 @@ namespace AM
             sb.AppendLine("Ctrl-Alt-Insert Play");
             sb.AppendLine("Ctrl-Alt-Up Volume increase");
             sb.AppendLine("Ctrl-Alt-Down Volume decrease");
-            notifyIcon.BalloonTipText = sb.ToString();
-            notifyIcon.ShowBalloonTip(10000);
+
+            MessageBox.Show(sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -335,10 +333,7 @@ namespace AM
 
         private void ShowAboutBox()
         {
-            notifyIcon.BalloonTipIcon = ToolTipIcon.None;
-            notifyIcon.BalloonTipTitle = "About";
-            notifyIcon.BalloonTipText = "Sound Golem\nAldebaran\nCopyright © Mario Moreno 2009";
-            notifyIcon.ShowBalloonTip(3000);
+            MessageBox.Show("Sound Golem\n\nMario Moreno 2009", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
