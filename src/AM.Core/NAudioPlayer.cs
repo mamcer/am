@@ -1,5 +1,4 @@
 ﻿using System;
-using AM.Core;
 using NAudio.Wave;
 
 namespace AM.Core
@@ -9,6 +8,7 @@ namespace AM.Core
         private readonly WaveOutEvent _outputDevice;
         private AudioFileReader _audioFile;
         private readonly IPlaylist _playlist;
+        private bool _ignoreStop;
 
         public NAudioPlayer(IPlaylist playlist)
         {
@@ -16,11 +16,19 @@ namespace AM.Core
             _outputDevice = new WaveOutEvent();
             _audioFile = null;
             _outputDevice.PlaybackStopped += PlaybackStopped;
+            _ignoreStop = false;
         }
 
         private void PlaybackStopped(object sender, StoppedEventArgs e)
         {
-            Next();
+            if (!_ignoreStop)
+            {
+                Next();
+            }
+            else
+            {
+                _ignoreStop = false;
+            }
         }
 
         public void AddToPlaylist(string[] filePath)
@@ -84,10 +92,10 @@ namespace AM.Core
 
         public void Resume()
         {
-            if (_audioFile != null)
+            var filePath = _playlist.GetCurrentSongPath();
+            if (!string.IsNullOrEmpty(filePath))
             {
-                _outputDevice.Stop();
-                _outputDevice.Play();
+                PlayFile(filePath);
             }
         }
 
@@ -95,6 +103,8 @@ namespace AM.Core
         {
             if (_audioFile != null)
             {
+                _ignoreStop = true;
+                _audioFile = null;
                 _outputDevice.Stop();
             }
         }
@@ -112,11 +122,20 @@ namespace AM.Core
                     _outputDevice.Pause();
                 }
             }
+            else
+            {
+                var filePath = _playlist.GetCurrentSongPath();
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    PlayFile(filePath);
+                }
+            }
         }
 
         private void PlayFile(string filePath)
         {
             _audioFile = new AudioFileReader(filePath);
+            _ignoreStop = true;
             _outputDevice.Stop();
             _outputDevice.Init(_audioFile);
             _outputDevice.Play();
