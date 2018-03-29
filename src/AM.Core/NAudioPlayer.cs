@@ -35,7 +35,7 @@ namespace AM.Core
 
         public int PlaylistItemCount()
         {
-            return _playlist.Count();
+            return _playlist.Count;
         }
 
         public void VolumeUp()

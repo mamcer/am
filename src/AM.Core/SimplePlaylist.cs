@@ -1,4 +1,6 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
 
 namespace AM.Core
 {
@@ -11,6 +13,26 @@ namespace AM.Core
         {
             _playlist = new StringCollection();
             _currentItemIndex = -1;
+        }
+
+        public void Add(string[] filePaths)
+        {
+            if (filePaths.Any(string.IsNullOrEmpty))
+            {
+                throw new ArgumentException(nameof(filePaths));
+            }
+
+            _playlist.AddRange(filePaths);
+        }
+
+        public void Add(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            _playlist.Add(filePath);
         }
 
         public string GetPreviousSongPath()
@@ -45,20 +67,7 @@ namespace AM.Core
             return string.Empty;
         }
 
-        public void Add(string[] filePaths)
-        {
-            _playlist.AddRange(filePaths);
-        }
-
-        public void Add(string filePath)
-        {
-            _playlist.Add(filePath);
-        }
-
-        public int Count()
-        {
-            return _playlist.Count;
-        }
+        public int Count => _playlist.Count;
 
         public void Clear()
         {

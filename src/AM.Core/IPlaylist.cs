@@ -12,7 +12,7 @@
 
         void Add(string filePath);
 
-        int Count();
+        int Count { get; }
 
         void Clear();
     }
