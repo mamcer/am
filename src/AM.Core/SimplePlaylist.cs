@@ -12,7 +12,7 @@ namespace AM.Core
         public SimplePlaylist()
         {
             _playlist = new StringCollection();
-            _currentItemIndex = -1;
+            _currentItemIndex = 0;
         }
 
         public void Add(string[] filePaths)
@@ -48,7 +48,7 @@ namespace AM.Core
 
         public string GetCurrentSongPath()
         {
-            if (_playlist.Count > 0 && _currentItemIndex > 0 && _currentItemIndex < _playlist.Count)
+            if (_playlist.Count > 0 && _currentItemIndex >= 0 && _currentItemIndex < _playlist.Count)
             {
                 return _playlist[_currentItemIndex];
             }
@@ -58,7 +58,7 @@ namespace AM.Core
 
         public string GetNextSongPath()
         {
-            if (_playlist.Count > 0 && _currentItemIndex < _playlist.Count)
+            if (_playlist.Count > 0 && _currentItemIndex < _playlist.Count - 1)
             {
                 _currentItemIndex += 1;
                 return _playlist[_currentItemIndex];
