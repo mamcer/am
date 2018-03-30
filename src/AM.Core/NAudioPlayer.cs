@@ -50,7 +50,14 @@ namespace AM.Core
         {
             if (_outputDevice.Volume < 1)
             {
-                _outputDevice.Volume += 0.1f;
+                if (_outputDevice.Volume + 0.05f > 1.0f)
+                {
+                    _outputDevice.Volume = 1;
+                }
+                else
+                {
+                    _outputDevice.Volume += 0.05f;
+                }
             }
         }
 
@@ -58,7 +65,14 @@ namespace AM.Core
         {
             if (_outputDevice.Volume > 0)
             {
-                _outputDevice.Volume -= 0.1f;
+                if (_outputDevice.Volume < 0.05f)
+                {
+                    _outputDevice.Volume = 0;
+                }
+                else
+                {
+                    _outputDevice.Volume -= 0.05f;
+                }
             }
         }
 

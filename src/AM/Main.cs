@@ -182,13 +182,13 @@ namespace AM
         private void VolumeUp()
         {
             _player.VolumeUp();
-            ConsoleLog($"Current volume {_player.GetCurrentVolumeLevel()*100}%");
+            ConsoleLog($"Current volume {_player.GetCurrentVolumeLevel()*100:0.0}%");
         }
 
         private void VolumeDown()
         {
             _player.VolumeDown();
-            ConsoleLog($"Current volume {_player.GetCurrentVolumeLevel()*100}%");
+            ConsoleLog($"Current volume {_player.GetCurrentVolumeLevel()*100:0.0}%");
         }
 
         private void PlayPreviousSong()
