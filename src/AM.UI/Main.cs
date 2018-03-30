@@ -242,6 +242,11 @@ namespace AM.UI
 
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ShowMainWindow();
+        }
+
+        private void ShowMainWindow()
+        {
             Visible = true;
             WindowState = FormWindowState.Normal;
             BringToFront();
@@ -249,9 +254,7 @@ namespace AM.UI
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Visible = true;
-            WindowState = FormWindowState.Normal;
-            BringToFront();
+            ShowMainWindow();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
