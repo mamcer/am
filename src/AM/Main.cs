@@ -317,13 +317,13 @@ namespace AM
         private void ShowHelp()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Ctrl-Alt-Home        Pause");
-            sb.AppendLine("Ctrl-Alt-End         Stop");
-            sb.AppendLine("Ctrl-Alt-PageUp      Next");
-            sb.AppendLine("Ctrl-Alt-PageDown    Previous");
-            sb.AppendLine("Ctrl-Alt-Insert      Play");
-            sb.AppendLine("Ctrl-Alt-Up          Volume increase");
-            sb.AppendLine("Ctrl-Alt-Down        Volume decrease");
+            sb.AppendLine("Ctrl-Alt-Insert\t\tPlay");
+            sb.AppendLine("Ctrl-Alt-Home\t\tPlay/Pause");
+            sb.AppendLine("Ctrl-Alt-End\t\tStop");
+            sb.AppendLine("Ctrl-Alt-PageUp\t\tNext");
+            sb.AppendLine("Ctrl-Alt-PageDown\tPrevious");
+            sb.AppendLine("Ctrl-Alt-Up\t\tVolume increase");
+            sb.AppendLine("Ctrl-Alt-Down\t\tVolume decrease");
 
             MessageBox.Show(sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
