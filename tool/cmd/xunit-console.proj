@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="Main" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="Main">
+		<Message Text="Working Directory: $(WorkingDirectory)" />
+		<Message Text="xUnit Runner Console Bin Path: $(XunitRunnerConsoleBinPath)" />
+		<ItemGroup>
+			<TestAssemblies Include="$(WorkingDirectory)\**\bin\Debug\*.Tests.dll"/>
+			<TestAssemblies Include="$(WorkingDirectory)\**\bin\Debug\*.Test.dll"/>
+		</ItemGroup>
+ 		<Exec Command="&quot;$(XunitRunnerConsoleBinPath)&quot; @(TestAssemblies ->'&quot;$(WorkingDirectory)\%(RecursiveDir)%(Filename)%(Extension)&quot;', ' ')  -nologo -noautoreporters -verbose -nunit nunit-test-results.xml"> 
+			<Output TaskParameter="ExitCode" PropertyName="ExitCode" />
+		</Exec>
+ 	</Target>
+</Project>

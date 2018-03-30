@@ -2,25 +2,34 @@
 SETLOCAL
 
 @REM  ----------------------------------------------------------------------------
-@REM  build.cmd
+@REM  report-generator.cmd
 @REM
 @REM  author: mamcer@outlook.com
 @REM  ----------------------------------------------------------------------------
 
 set start_time=%time%
-set msbuild_bin_path=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin
-set working_dir="%CD%"
-set solution_name=AM.sln
+set working_dir=%CD%\..\..
+set reportgenerator_bin=C:\root\bin\report-generator\tools\ReportGenerator.exe
+set opencover_file=%working_dir%\open-cover.xml
+set target_dir=coverage-report
 
 @REM  Shorten the command prompt for making the output easier to read
 set savedPrompt=%prompt%
 set prompt=$$$g$s
 
-@REM Change to the directory where the solution file resides
-pushd %working_dir%
+pushd %CD%
 
-call "%msbuild_bin_path%\MSBuild.exe" /m %solution_name% /t:Rebuild /p:Configuration=Debug
-@if %errorlevel% NEQ 0 goto :error
+cd %working_dir%
+
+@REM remove previous coverate-report directory if it exists  
+IF NOT EXIST "%working_dir%\%target_dir%" GOTO NoCoverageReport
+rmdir /s /q "%target_dir%"
+:NoCoverageReport
+md "%target_dir%"
+
+@REM run report generator
+"%reportgenerator_bin%" -reports:"%opencover_file%" -targetdir:"%CD%\%target_dir%" -reporttypes:Html
+@if %errorlevel% NEQ 0 goto error
 
 @REM  Restore the command prompt and exit
 @goto :success

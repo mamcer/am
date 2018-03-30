@@ -27,3 +27,12 @@ _ReSharper*/
 
 # SonarQube
 .sonarqube/
+
+# Code coverage files
+coverage-report/
+open-cover.xml
+/open-cover.proj
+
+# Unit testing files
+/xunit-console.proj
+/nunit-test-results.xml
