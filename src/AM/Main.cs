@@ -147,12 +147,12 @@ namespace AM
                         break;
                     case Keys.PageUp:
                         {
-                            PlayNextSong();
+                            PlayPreviousSong();
                         }
                         break;
                     case Keys.PageDown:
                         {
-                            PlayPreviousSong();
+                            PlayNextSong();
                         }
                         break;
                     case Keys.Insert:

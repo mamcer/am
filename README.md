@@ -21,3 +21,8 @@ It was fun to implement it. Just a couple of hours in one or maybe two nights.
 
 - Windows Media Player installed (to being able to play mp3 files)
 - Libraries: `AxInterop.WMPLib.dll`, `Interop.WMPLib.dll` (included in the `publish` folder from `original` branch)
+
+## Credits
+
+Icon by [https://www.iconfinder.com/hsynckr]() 
+[https://www.iconfinder.com/icons/2210779/black_white_circle_high_quality_itunes_long_shadow_media_social_media_icon#size=256]()
