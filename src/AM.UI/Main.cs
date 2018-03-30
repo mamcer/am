@@ -170,11 +170,6 @@ namespace AM.UI
                             VolumeDown();
                         }
                         break;
-                    case Keys.I:
-                        {
-                            ShowCurrentTrackInfo();
-                        }
-                        break;
                 }
             }
         }
@@ -346,35 +341,6 @@ namespace AM.UI
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ShowHelp();
-        }
-
-        private void ShowCurrentTrackInfo()
-        {
-            // TODO: fixit
-
-            //if (axWindowsMediaPlayer1.Ctlcontrols.currentItem != null)
-            //{
-            //    notifyIcon1.BalloonTipIcon = ToolTipIcon.None;
-            //    notifyIcon1.BalloonTipTitle = "File Info";
-            //    string artist = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Artist");
-            //    string title = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Title");
-            //    string year = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("WM/Year");
-            //    string album = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Album");
-            //    string bitrate = axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("Bitrate");
-            //    if (string.IsNullOrEmpty(axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR"))
-            //        || axWindowsMediaPlayer1.Ctlcontrols.currentItem.getItemInfo("IsVBR") == "False")
-            //    {
-            //        notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit";
-            //    }
-            //    else
-            //    {
-            //        notifyIcon1.BalloonTipText = $"{artist} - {title}\n{year} - {album}\n{bitrate} kbit (VBR)";
-            //    }
-            //    notifyIcon1.ShowBalloonTip(3000);
-            //    //Artista - Tema
-            //    //Año - Album
-            //    //Rate
-            //}
         }
 
         private void ConsoleLog(string message)
