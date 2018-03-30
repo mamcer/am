@@ -1,8 +1,7 @@
 ﻿using System;
-using AM.Core;
 using Xunit;
 
-namespace AM.Test
+namespace AM.Core.Test
 {
     public class SimplePlaylistTest
     {

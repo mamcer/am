@@ -166,6 +166,7 @@
             this.txtConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtConsole.Size = new System.Drawing.Size(479, 162);
             this.txtConsole.TabIndex = 6;
+            this.txtConsole.WordWrap = false;
             // 
             // Main
             // 
@@ -181,7 +182,6 @@
             this.Controls.Add(this.linkLabel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sound Golem";
