@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace AM
+namespace AM.UI
 {
     public partial class Error : Form
     {

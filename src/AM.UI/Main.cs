@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using AM.Core;
 
-namespace AM
+namespace AM.UI
 {
     public partial class Main : Form
     {
@@ -34,7 +34,7 @@ namespace AM
             StringBuilder sb = new StringBuilder();
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.Insert);
             }
             catch (InvalidOperationException ioe)
@@ -43,7 +43,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.Home);
             }
             catch (InvalidOperationException ioe)
@@ -52,7 +52,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.PageDown);
             }
             catch (InvalidOperationException ioe)
@@ -61,7 +61,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.PageUp);
             }
             catch (InvalidOperationException ioe)
@@ -70,7 +70,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.End);
             }
             catch (InvalidOperationException ioe)
@@ -79,7 +79,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.Up);
             }
             catch (InvalidOperationException ioe)
@@ -88,7 +88,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.Right);
             }
             catch (InvalidOperationException ioe)
@@ -97,7 +97,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.Down);
             }
             catch (InvalidOperationException ioe)
@@ -106,7 +106,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.Left);
             }
             catch (InvalidOperationException ioe)
@@ -115,7 +115,7 @@ namespace AM
             }
             try
             {
-                _hook.RegisterHotKey(AM.ModifierKeys.Control | AM.ModifierKeys.Alt,
+                _hook.RegisterHotKey(UI.ModifierKeys.Control | UI.ModifierKeys.Alt,
                     Keys.I);
             }
             catch (InvalidOperationException ioe)
@@ -131,7 +131,7 @@ namespace AM
 
         void hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            if (e.Modifier == (AM.ModifierKeys.Alt | AM.ModifierKeys.Control))
+            if (e.Modifier == (UI.ModifierKeys.Alt | UI.ModifierKeys.Control))
             {
                 switch (e.Key)
                 {

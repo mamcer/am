@@ -1,7 +1,7 @@
 ﻿using AM.Core;
 using Ninject.Modules;
 
-namespace AM
+namespace AM.UI
 {
     public class Bindings : NinjectModule
     {

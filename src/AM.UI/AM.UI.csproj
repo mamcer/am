@@ -8,13 +8,13 @@
     <ProjectGuid>{B9E4D663-D879-42C0-B9BE-126D2B84D467}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AM</RootNamespace>
+    <RootNamespace>AM.UI</RootNamespace>
     <AssemblyName>golem</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>play.ico</ApplicationIcon>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <StartupObject>AM.Program</StartupObject>
+    <StartupObject>AM.UI.Program</StartupObject>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>

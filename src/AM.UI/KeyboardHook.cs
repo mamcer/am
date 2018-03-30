@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace AM
+namespace AM.UI
 {
     public sealed class KeyboardHook : IDisposable
     {

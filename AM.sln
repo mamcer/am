@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "src\AM.Core\AM.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core.Test", "src\AM.Core.Test\AM.Core.Test.csproj", "{56FE3165-1F96-4ADA-978B-D62209949727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.UI", "src\AM\AM.UI.csproj", "{B9E4D663-D879-42C0-B9BE-126D2B84D467}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.UI", "src\AM.UI\AM.UI.csproj", "{B9E4D663-D879-42C0-B9BE-126D2B84D467}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

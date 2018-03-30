@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using AM.Core;
 using Ninject;
 
-namespace AM
+namespace AM.UI
 {
     static class Program
     {

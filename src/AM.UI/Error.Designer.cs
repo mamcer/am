@@ -1,4 +1,4 @@
-﻿namespace AM
+﻿namespace AM.UI
 {
     partial class Error
     {
