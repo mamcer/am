@@ -12,6 +12,10 @@ Intended to accompany coding sessions, being able to change songs without disrup
 
 It was fun to implement it. Just a couple of hours in one or maybe two nights.
 
+## Screenshot
+
+![screenshot](https://raw.githubusercontent.com/mamcer/am/master/doc/screenshot.png)
+
 ## Technologies
 
 - Visual Studio 2008
