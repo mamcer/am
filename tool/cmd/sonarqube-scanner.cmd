@@ -4,7 +4,7 @@ SETLOCAL
 @REM  ----------------------------------------------------------------------------
 @REM  sonarqube-scanner.cmd
 @REM
-@REM  author: mamcer@outlook.com
+@REM  author: m4mc3r@gmail.com
 @REM  ----------------------------------------------------------------------------
 
 set start_time=%time%

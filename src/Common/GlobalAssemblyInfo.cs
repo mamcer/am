@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mario Moreno")]
-[assembly: AssemblyProduct("AM Sound Golem")]
+[assembly: AssemblyProduct("AM")]
 [assembly: AssemblyCopyright("2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
