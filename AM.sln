@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core.Test", "src\AM.Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.UI", "src\AM.UI\AM.UI.csproj", "{B9E4D663-D879-42C0-B9BE-126D2B84D467}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{946BDD4C-4F70-4A0C-B339-F61199FC4259}"
+	ProjectSection(SolutionItems) = preProject
+		src\Common\GlobalAssemblyInfo.cs = src\Common\GlobalAssemblyInfo.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

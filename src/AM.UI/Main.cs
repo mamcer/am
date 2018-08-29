@@ -22,7 +22,7 @@ namespace AM.UI
 
             _player = player;
 
-            ConsoleLog("Welcome to AM!");
+            ConsoleLog("Welcome to Sound Golem!");
         }
 
         private void RegisterKeyboardShortcuts()
@@ -333,7 +333,7 @@ namespace AM.UI
 
         private void ShowAboutBox()
         {
-            MessageBox.Show("AM\n\nMario Moreno 2009", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Sound Golem\n\nMario Moreno 2009", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
