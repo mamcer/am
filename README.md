@@ -4,6 +4,8 @@ A .NET Winforms application from 2008.
 
 In `original` branch you will find the original source code for this application. In `master` an upgraded, refactored version.
 
+> More details about why I published this project in [this blog post](https://mamcer.github.io/2018-09-02-i-cleaned-up-my-virtual-basement/)
+
 ## Description
 
 AM or Sound Golem is a simple Winforms .NET 3.5 application. The main goal of the application was to play .mp3 audio files from a specific folder. Full keyboard control, no UI with playback options provided.
